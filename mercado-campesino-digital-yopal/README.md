@@ -35,6 +35,4 @@ El frontend es solo un prototipo y aún no está conectado al backend. La reserv
 - `feature/RF-10-reportes`: reportes
 
 ## Integrantes
-- Integrante 1: [Nombre]
-- Integrante 2: [Nombre]
-- Integrante 3: [Nombre]
+- Fabian Rodriguez Cardenas
