@@ -1,0 +1,8 @@
+-- Esquema inicial de referencia PostgreSQL; falta integrarlo con la aplicación.
+CREATE TABLE vereda (id BIGSERIAL PRIMARY KEY, nombre VARCHAR(120) NOT NULL UNIQUE, municipio VARCHAR(120) NOT NULL DEFAULT 'Yopal');
+CREATE TABLE usuario (id BIGSERIAL PRIMARY KEY, nombre VARCHAR(160) NOT NULL, correo VARCHAR(180) NOT NULL UNIQUE, hash_contrasena VARCHAR(255) NOT NULL, rol VARCHAR(30) NOT NULL CHECK (rol IN ('PRODUCTOR','CLIENTE','SECRETARIA','ADMIN')));
+CREATE TABLE productor (id BIGSERIAL PRIMARY KEY, usuario_id BIGINT NOT NULL UNIQUE REFERENCES usuario(id), vereda_id BIGINT NOT NULL REFERENCES vereda(id), nombre_publico VARCHAR(160) NOT NULL, punto_recogida VARCHAR(255));
+CREATE TABLE producto (id BIGSERIAL PRIMARY KEY, nombre VARCHAR(160) NOT NULL, categoria VARCHAR(100), unidad_base VARCHAR(40) NOT NULL, activo BOOLEAN NOT NULL DEFAULT TRUE);
+CREATE TABLE oferta (id BIGSERIAL PRIMARY KEY, productor_id BIGINT NOT NULL REFERENCES productor(id), producto_id BIGINT NOT NULL REFERENCES producto(id), semana_inicio DATE NOT NULL, cantidad_inicial NUMERIC(10,2) NOT NULL CHECK(cantidad_inicial>0), cantidad_disponible NUMERIC(10,2) NOT NULL CHECK(cantidad_disponible>=0), precio_unitario NUMERIC(12,2) NOT NULL CHECK(precio_unitario>=0));
+CREATE TABLE reserva (id BIGSERIAL PRIMARY KEY, codigo VARCHAR(40) NOT NULL UNIQUE, cliente_id BIGINT NOT NULL REFERENCES usuario(id), fecha_hora TIMESTAMPTZ NOT NULL DEFAULT NOW(), estado VARCHAR(25) NOT NULL DEFAULT 'CONFIRMADA');
+CREATE TABLE detalle_reserva (id BIGSERIAL PRIMARY KEY, reserva_id BIGINT NOT NULL REFERENCES reserva(id), oferta_id BIGINT NOT NULL REFERENCES oferta(id), cantidad NUMERIC(10,2) NOT NULL CHECK(cantidad>0), precio_unitario NUMERIC(12,2) NOT NULL CHECK(precio_unitario>=0));

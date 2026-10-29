@@ -1,0 +1,3 @@
+const productos=[{nombre:"Plátano",vereda:"La Guafilla",precio:2500,unidad:"racimo",stock:8},{nombre:"Yuca",vereda:"Tacarimena",precio:3000,unidad:"kg",stock:12},{nombre:"Queso llanero",vereda:"El Charte",precio:14000,unidad:"libra",stock:4}];
+const contenedor=document.querySelector("#catalogo");
+productos.forEach(p=>{const el=document.createElement("article");el.className="producto";el.innerHTML=`<h3>${p.nombre}</h3><p>Vereda: ${p.vereda}</p><p>Precio: $${p.precio.toLocaleString("es-CO")} / ${p.unidad}</p><p>Disponible: ${p.stock} ${p.unidad}</p><button type="button">Simular reserva</button>`;el.querySelector("button").onclick=()=>alert("Prototipo: la reserva real aún no está implementada.");contenedor.appendChild(el);});
